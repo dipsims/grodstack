@@ -12,21 +12,6 @@ version: "2.1"
 
 services:
 
-  # ================================================
-  # Third-party services
-  # ================================================
-
-  chrome:
-    container_name: edx.devstack.chrome
-    hostname: chrome.devstack.edx
-    image: edxops/chrome:${OPENEDX_RELEASE:-latest}
-    shm_size: 2g
-    ports:
-      - "15900:5900"
-    volumes:  # for file uploads
-      - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
-      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
-
   devpi:
     container_name: edx.devstack.devpi
     hostname: devpi.devstack.edx
@@ -53,17 +38,6 @@ services:
     container_name: edx.devstack.elasticsearch-5
     hostname: elasticsearch-5.devstack.edx
     image: elasticsearch:5.6.16
-
-  firefox:
-    container_name: edx.devstack.firefox
-    hostname: firefox.devstack.edx
-    image: edxops/firefox:${OPENEDX_RELEASE:-latest}
-    shm_size: 2g
-    ports:
-      - "25900:5900"
-    volumes:  # for file uploads
-      - ../edx-e2e-tests/upload_files:/edx/app/e2e/edx-e2e-tests/upload_files
-      - ../edx-platform/common/test/data:/edx/app/edxapp/edx-platform/common/test/data
 
   memcached:
     container_name: edx.devstack.memcached
@@ -227,8 +201,6 @@ services:
       - mongo
       - discovery
       - forum
-      - firefox
-      - chrome
     # Allows attachment to the LMS service using 'docker attach <containerID>'.
     stdin_open: true
     tty: true
@@ -322,8 +294,6 @@ services:
       - mysql
       - memcached
       - mongo
-      - firefox
-      - chrome
       - lms
     # Allows attachment to the Studio service using 'docker attach <containerID>'.
     stdin_open: true

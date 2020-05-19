@@ -817,50 +817,6 @@ so that you maintain your command history:
 
     ./in lms pytest openedx/core/djangoapps/user_api
 
-Connecting to Browser
-~~~~~~~~~~~~~~~~~~~~~
-
-If you want to see the browser being automated for JavaScript or bok-choy tests,
-you can connect to the container running it via VNC.
-
-+------------------------+----------------------+
-| Browser                | VNC connection       |
-+========================+======================+
-| Firefox (Default)      | vnc://0.0.0.0:25900  |
-+------------------------+----------------------+
-| Chrome (via Selenium)  | vnc://0.0.0.0:15900  |
-+------------------------+----------------------+
-
-On macOS, enter the VNC connection string in the address bar in Safari to
-connect via VNC. The VNC passwords for both browsers are randomly generated and
-logged at container startup, and can be found by running ``make vnc-passwords``.
-
-Most tests are run in Firefox by default.  To use Chrome for tests that normally
-use Firefox instead, prefix the test command with
-``SELENIUM_BROWSER=chrome SELENIUM_HOST=edx.devstack.chrome``.
-
-Running End-to-End Tests
-------------------------
-
-To run the base set of end-to-end tests for edx-platform, run the following
-make target:
-
-.. code:: sh
-
-   make e2e-tests
-
-If you want to use some of the other testing options described in the
-`edx-e2e-tests README`_, you can instead start a shell for the e2e container
-and run the tests manually via paver:
-
-.. code:: sh
-
-    make e2e-shell
-    paver e2e_test --exclude="whitelabel\|enterprise"
-
-The browser running the tests can be seen and interacted with via VNC as
-described above (Firefox is used by default).
-
 Troubleshooting: General Tips
 -----------------------------
 

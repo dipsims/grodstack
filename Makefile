@@ -48,7 +48,6 @@ ifeq ($(FS_SYNC_STRATEGY),local-mounts)
 DOCKER_COMPOSE_FILES := \
 -f docker-compose-host.yml \
 -f docker-compose-themes.yml \
--f docker-compose-watchers.yml \
 -f docker-compose-xqueue.yml \
 -f docker-compose-analytics-pipeline.yml \
 -f docker-compose-marketing-site.yml
@@ -105,7 +104,7 @@ prod.provision.services: ## Provision default services with local mounted direct
 	# e2e is not part of `DEFAULT_SERVICES` because it isn't a service;
 	# it's just a way to tell ./provision.sh that the fake data for end-to-end
 	# tests should be prepared.
-	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)+e2e
+	$(WINPTY) bash ./provision.sh $(DEFAULT_SERVICES)
 
 prod.provision.services.%: ## Provision specified services with local mounted directories, separated by plus signs
 	$(WINPTY) bash ./provision.sh $*
