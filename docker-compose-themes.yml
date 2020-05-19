@@ -1,0 +1,15 @@
+version: "2.1"
+
+services:
+  discovery:
+      volumes:
+      - ${PROD_VOLUME}/edx-themes:/edx/app/edx-themes:cached
+  ecommerce:
+      volumes:
+      - ${PROD_VOLUME}/edx-themes:/edx/app/edx-themes:cached
+  lms:
+      volumes:
+      - ${PROD_VOLUME}/edx-themes:/edx/app/edx-themes:cached
+  studio:
+      volumes:
+      - ${PROD_VOLUME}/edx-themes:/edx/app/edx-themes:cached

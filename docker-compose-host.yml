@@ -1,0 +1,70 @@
+# Update docker-compose-host-nfs.yml too in case of any change in this file.
+
+version: "2.1"
+
+services:
+  credentials:
+    volumes:
+      - ${PROD_VOLUME}/credentials:/edx/app/credentials/credentials:cached
+      - credentials_node_modules:/edx/app/credentials/credentials/node_modules
+      - ${PROD_VOLUME}/src:/edx/src:cached
+  discovery:
+      volumes:
+      - ${PROD_VOLUME}/course-discovery:/edx/app/discovery/discovery:cached
+      - discovery_node_modules:/edx/app/discovery/discovery/node_modules
+      - ${PROD_VOLUME}/src:/edx/src:cached
+  ecommerce:
+    volumes:
+      - ${PROD_VOLUME}/ecommerce:/edx/app/ecommerce/ecommerce:cached
+      - ecommerce_node_modules:/edx/app/ecommerce/ecommerce/node_modules
+      - ${PROD_VOLUME}/src:/edx/src:cached
+  lms:
+    volumes:
+      - ${PROD_VOLUME}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - edxapp_media:/edx/var/edxapp/media
+      - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_uploads:/edx/var/edxapp/uploads
+      - ${PROD_VOLUME}/src:/edx/src:cached
+  edx_notes_api:
+    volumes:
+      - ${PROD_VOLUME}/edx-notes-api:/edx/app/edx_notes_api/edx_notes_api:cached
+      - ${PROD_VOLUME}/src:/edx/src:cached
+  studio:
+    volumes:
+      - ${PROD_VOLUME}/edx-platform:/edx/app/edxapp/edx-platform:cached
+      - edxapp_media:/edx/var/edxapp/media
+      - edxapp_node_modules:/edx/app/edxapp/edx-platform/node_modules
+      - edxapp_uploads:/edx/var/edxapp/uploads
+      - ${PROD_VOLUME}/src:/edx/src:cached
+  forum:
+    volumes:
+      - ${PROD_VOLUME}/cs_comments_service:/edx/app/forum/cs_comments_service:cached
+  registrar:
+    volumes:
+      - ${PROD_VOLUME}/registrar:/edx/app/registrar/registrar
+  registrar-worker:
+    volumes:
+      - ${PROD_VOLUME}/registrar:/edx/app/registrar/registrar
+  gradebook:
+    volumes:
+      - ${PROD_VOLUME}/frontend-app-gradebook:/edx/app/gradebook:cached
+      - gradebook_node_modules:/edx/app/gradebook/node_modules
+  program-console:
+    volumes:
+      - ${PROD_VOLUME}/frontend-app-program-console:/edx/app/program-console:cached
+      - program_console_node_modules:/edx/app/program-console/node_modules
+  frontend-app-publisher:
+    volumes:
+      - ${PROD_VOLUME}/frontend-app-publisher:/edx/app/frontend-app-publisher:cached
+      - frontend_app_publisher_node_modules:/edx/app/frontend-app-publisher/node_modules
+
+volumes:
+  credentials_node_modules:
+  discovery_node_modules:
+  ecommerce_node_modules:
+  edxapp_media:
+  edxapp_node_modules:
+  edxapp_uploads:
+  gradebook_node_modules:
+  program_console_node_modules:
+  frontend_app_publisher_node_modules:
