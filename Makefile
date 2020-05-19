@@ -94,7 +94,7 @@ upgrade: ## Upgrade requirements with pip-tools
 	pip-compile --upgrade -o requirements/base.txt requirements/base.in
 
 prod.clone.ssh: ## Clone service repos using SSH method to the parent directory
-	true
+	./repo.sh clone_ssh
 	# ./openedx/build.sh
 	# ./commerce/build.sh
 	# ./credentials/build.sh
