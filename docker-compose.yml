@@ -5,7 +5,7 @@
 # - Group third-party services, edX services, and edX microfrontends separately
 # - Alphabetize services in the groups
 # - Alphabetize individual configuration options for each service
-# - Every service's container name should be prefixed with "edx.devstack." to avoid conflicts with other containers
+# - Every service's container name should be prefixed with "edx.live." to avoid conflicts with other containers
 #   that might be running for the same service.
 
 version: "2.1"
@@ -13,8 +13,8 @@ version: "2.1"
 services:
 
   devpi:
-    container_name: edx.devstack.devpi
-    hostname: devpi.devstack.edx
+    container_name: edx.live.devpi
+    hostname: devpi.live.edx
     image: edxops/devpi:${OPENEDX_RELEASE:-latest}
     ports:
       - "3141:3141"
@@ -22,8 +22,8 @@ services:
       - devpi_data:/data
 
   elasticsearch:
-    container_name: edx.devstack.elasticsearch
-    hostname: elasticsearch.devstack.edx
+    container_name: edx.live.elasticsearch
+    hostname: elasticsearch.live.edx
     image: edxops/elasticsearch:devstack
     # TODO: What to do about these forwarded ports? They'll conflict with ports forwarded by the Vagrant VM.
     # ports:
@@ -35,13 +35,13 @@ services:
 
   # This is meant to be used to test ES upgrades so that we do not have to upgrade all of our services to ES5 at once.
   elasticsearch-5:
-    container_name: edx.devstack.elasticsearch-5
-    hostname: elasticsearch-5.devstack.edx
+    container_name: edx.live.elasticsearch-5
+    hostname: elasticsearch-5.live.edx
     image: elasticsearch:5.6.16
 
   memcached:
-    container_name: edx.devstack.memcached
-    hostname: memcached.devstack.edx
+    container_name: edx.live.memcached
+    hostname: memcached.live.edx
     image: memcached:1.5.10-alpine
     # ports:
     #   - "11211:11211"
@@ -51,8 +51,8 @@ services:
     # to conserve disk space, and disable the journal for a minor performance gain.
     # See https://docs.mongodb.com/v3.0/reference/program/mongod/#options for complete details.
     command: mongod --smallfiles --nojournal --storageEngine wiredTiger
-    container_name: edx.devstack.mongo
-    hostname: mongo.devstack.edx
+    container_name: edx.live.mongo
+    hostname: mongo.live.edx
     image: mongo:${MONGO_VERSION:-3.6.17}
     # ports:
     #  - "27017:27017"
@@ -61,8 +61,8 @@ services:
 
   mysql:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: edx.devstack.mysql
-    hostname: mysql.devstack.edx
+    container_name: edx.live.mysql
+    hostname: mysql.live.edx
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -74,8 +74,8 @@ services:
 
   mysql57:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_general_ci
-    container_name: edx.devstack.mysql57
-    hostname: mysql57.devstack.edx
+    container_name: edx.live.mysql57
+    hostname: mysql57.live.edx
     environment:
       MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -86,8 +86,8 @@ services:
       - mysql57_data:/var/lib/mysql
 
   redis:
-    container_name: edx.devstack.redis
-    hostname: redis.devstack.edx
+    container_name: edx.live.redis
+    hostname: redis.live.edx
     image: redis:2.8
     command: redis-server --requirepass password
 
@@ -97,8 +97,8 @@ services:
 
   credentials:
     command: bash -c 'source /edx/app/credentials/credentials_env && while true; do python /edx/app/credentials/credentials/manage.py runserver 0.0.0.0:18150; sleep 2; done'
-    container_name: edx.devstack.credentials
-    hostname: credentials.devstack.edx
+    container_name: edx.live.credentials
+    hostname: credentials.live.edx
     depends_on:
       - mysql
       - memcached
@@ -107,9 +107,9 @@ services:
     stdin_open: true
     tty: true
     environment:
-      CACHE_LOCATION: edx.devstack.memcached:12211
-      DB_HOST: edx.devstack.mysql
-      SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.devstack.lms:18000/oauth2
+      CACHE_LOCATION: edx.live.memcached:12211
+      DB_HOST: edx.live.mysql
+      SOCIAL_AUTH_EDX_OIDC_URL_ROOT: http://edx.live.lms:18000/oauth2
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/credentials:${OPENEDX_RELEASE:-latest}
@@ -118,8 +118,8 @@ services:
 
   discovery:
     command: bash -c 'source /edx/app/discovery/discovery_env && while true; do python /edx/app/discovery/discovery/manage.py runserver 0.0.0.0:18381; sleep 2; done'
-    container_name: edx.devstack.discovery
-    hostname: discovery.devstack.edx
+    container_name: edx.live.discovery
+    hostname: discovery.live.edx
     depends_on:
       - mysql
       - elasticsearch
@@ -128,7 +128,7 @@ services:
     stdin_open: true
     tty: true
     environment:
-      TEST_ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      TEST_ELASTICSEARCH_URL: "http://edx.live.elasticsearch:9200"
       ENABLE_DJANGO_TOOLBAR: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/discovery:${OPENEDX_RELEASE:-latest}
@@ -139,8 +139,8 @@ services:
 
   ecommerce:
     command: bash -c 'source /edx/app/ecommerce/ecommerce_env && while true; do python /edx/app/ecommerce/ecommerce/manage.py runserver 0.0.0.0:18130; sleep 2; done'
-    container_name: edx.devstack.ecommerce
-    hostname: ecommerce.devstack.edx
+    container_name: edx.live.ecommerce
+    hostname: ecommerce.live.edx
     depends_on:
       - mysql
       - memcached
@@ -158,8 +158,8 @@ services:
 
   edx_notes_api:
     command: bash -c 'source /edx/app/edx_notes_api/edx_notes_api_env && while true; do python /edx/app/edx_notes_api/edx_notes_api/manage.py runserver 0.0.0.0:18120 --settings notesserver.settings.devstack; sleep 2; done'
-    container_name: edx.devstack.edxnotesapi
-    hostname: edx_notes_api.devstack.edx
+    container_name: edx.live.edxnotesapi
+    hostname: edx_notes_api.live.edx
     depends_on:
       - devpi
       - elasticsearch
@@ -169,19 +169,19 @@ services:
       - "18120:18120"
     environment:
       DB_ENGINE: "django.db.backends.mysql"
-      DB_HOST: "edx.devstack.mysql"
+      DB_HOST: "edx.live.mysql"
       DB_NAME: "notes"
       DB_PASSWORD: "password"
       DB_PORT: "3306"
       DB_USER: "notes001"
       DJANGO_WATCHMAN_TIMEOUT: 30
       ENABLE_DJANGO_TOOLBAR: 1
-      ELASTICSEARCH_URL: "http://edx.devstack.elasticsearch:9200"
+      ELASTICSEARCH_URL: "http://edx.live.elasticsearch:9200"
 
   forum:
     command: bash -c 'source /edx/app/forum/ruby_env && source /edx/app/forum/devstack_forum_env && cd /edx/app/forum/cs_comments_service && bundle install && while true; do ruby app.rb -o 0.0.0.0 ; sleep 2; done'
-    container_name: edx.devstack.forum
-    hostname: forum.devstack.edx
+    container_name: edx.live.forum
+    hostname: forum.live.edx
     depends_on:
       - mongo
       - memcached
@@ -192,8 +192,8 @@ services:
 
   lms:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py lms runserver 0.0.0.0:18000 --settings devstack_docker; sleep 2; done'
-    container_name: edx.devstack.lms
-    hostname: lms.devstack.edx
+    container_name: edx.live.lms
+    hostname: lms.live.edx
     depends_on:
       - devpi
       - mysql
@@ -205,10 +205,10 @@ services:
     stdin_open: true
     tty: true
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.lms
+      BOK_CHOY_HOSTNAME: edx.live.lms
       BOK_CHOY_LMS_PORT: 18003
       BOK_CHOY_CMS_PORT: 18031
-      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
+      EDXAPP_TEST_MONGO_HOST: edx.live.mongo
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
@@ -222,8 +222,8 @@ services:
 
   registrar:
     command: bash -c 'source /edx/app/registrar/registrar_env && while true; do python /edx/app/registrar/registrar/manage.py runserver 0.0.0.0:18734; sleep 2; done'
-    container_name: edx.devstack.registrar
-    hostname: registrar.devstack.edx
+    container_name: edx.live.registrar
+    hostname: registrar.live.edx
     depends_on:
       - discovery
       - lms
@@ -235,17 +235,17 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: edx.live.mysql
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
       DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
-      MEMCACHE_HOST: edx.devstack.memcached
+      MEMCACHE_HOST: edx.live.memcached
       DJANGO_SETTINGS_MODULE: registrar.settings.devstack
       CELERY_ALWAYS_EAGER: 'false'
       CELERY_BROKER_TRANSPORT: redis
-      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_HOSTNAME: edx.live.redis:6379
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -257,8 +257,8 @@ services:
 
   registrar-worker:
     command: bash -c 'source /edx/app/registrar/registrar_env && cd /edx/app/registrar/registrar && celery -A registrar worker -l debug -c 2'
-    container_name: edx.devstack.registrar-worker
-    hostname: registrar-worker.devstack.edx
+    container_name: edx.live.registrar-worker
+    hostname: registrar-worker.live.edx
     depends_on:
       - lms
       - mysql
@@ -266,16 +266,16 @@ services:
     stdin_open: true
     tty: true
     environment:
-      DB_HOST: edx.devstack.mysql
+      DB_HOST: edx.live.mysql
       DB_NAME: registrar
       DB_PORT: 3306
       DB_USER: registrar001
       DB_PASSWORD: password
       LMS_HOST: http://localhost:18000
-      MEMCACHE_HOST: edx.devstack.memcached
+      MEMCACHE_HOST: edx.live.memcached
       DJANGO_SETTINGS_MODULE: registrar.settings.devstack
       CELERY_BROKER_TRANSPORT: redis
-      CELERY_BROKER_HOSTNAME: edx.devstack.redis:6379
+      CELERY_BROKER_HOSTNAME: edx.live.redis:6379
       CELERY_BROKER_VHOST: 10
       CELERY_BROKER_PASSWORD: password
       DJANGO_WATCHMAN_TIMEOUT: 30
@@ -287,8 +287,8 @@ services:
 
   studio:
     command: bash -c 'source /edx/app/edxapp/edxapp_env && while true; do python /edx/app/edxapp/edx-platform/manage.py cms runserver 0.0.0.0:18010 --settings devstack_docker; sleep 2; done'
-    container_name: edx.devstack.studio
-    hostname: studio.devstack.edx
+    container_name: edx.live.studio
+    hostname: studio.live.edx
     depends_on:
       - devpi
       - mysql
@@ -299,10 +299,10 @@ services:
     stdin_open: true
     tty: true
     environment:
-      BOK_CHOY_HOSTNAME: edx.devstack.studio
+      BOK_CHOY_HOSTNAME: edx.live.studio
       BOK_CHOY_LMS_PORT: 18103
       BOK_CHOY_CMS_PORT: 18131
-      EDXAPP_TEST_MONGO_HOST: edx.devstack.mongo
+      EDXAPP_TEST_MONGO_HOST: edx.live.mongo
       NO_PYTHON_UNINSTALL: 1
       DJANGO_WATCHMAN_TIMEOUT: 30
     image: edxops/edxapp:${OPENEDX_RELEASE:-latest}
@@ -327,7 +327,7 @@ services:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/frontend-app-publisher'
-    container_name: edx.devstack.frontend-app-publisher
+    container_name: edx.live.frontend-app-publisher
     ports:
       - "18400:18400"
     depends_on:
@@ -338,7 +338,7 @@ services:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/gradebook'
-    container_name: edx.devstack.gradebook
+    container_name: edx.live.gradebook
     ports:
       - "1994:1994"
     depends_on:
@@ -349,7 +349,7 @@ services:
       file: microfrontend.yml
       service: microfrontend
     working_dir: '/edx/app/program-console'
-    container_name: edx.devstack.program-console
+    container_name: edx.live.program-console
     ports:
       - "1976:1976"
     depends_on:
