@@ -21,41 +21,41 @@ fi
 # (or non_release_repos and non_release_ssh_repos if they are not part
 # of Open edX releases).
 repos=(
-    "https://github.com/dipsims/course-discovery.git"
-    "https://github.com/dipsims/credentials.git"
-    "https://github.com/dipsims/cs_comments_service.git"
-    "https://github.com/dipsims/ecommerce.git"
-    "https://github.com/dipsims/edx-e2e-tests.git"
-    "https://github.com/dipsims/edx-notes-api.git"
-    "https://github.com/dipsims/edx-platform.git"
-    "https://github.com/dipsims/xqueue.git"
-    "https://github.com/dipsims/edx-analytics-pipeline.git"
-    "https://github.com/dipsims/frontend-app-gradebook.git"
-    "https://github.com/dipsims/frontend-app-publisher.git"
+    "https://github.com/edx/course-discovery.git"
+    "https://github.com/edx/credentials.git"
+    "https://github.com/edx/cs_comments_service.git"
+    "https://github.com/edx/ecommerce.git"
+    "https://github.com/edx/edx-e2e-tests.git"
+    "https://github.com/edx/edx-notes-api.git"
+    "https://github.com/edx/edx-platform.git"
+    "https://github.com/edx/xqueue.git"
+    "https://github.com/edx/edx-analytics-pipeline.git"
+    "https://github.com/edx/frontend-app-gradebook.git"
+    "https://github.com/edx/frontend-app-publisher.git"
 )
 
 non_release_repos=(
-    "https://github.com/dipsims/registrar.git"
-    "https://github.com/dipsims/frontend-app-program-console.git"
+    "https://github.com/edx/registrar.git"
+    "https://github.com/edx/frontend-app-program-console.git"
 )
 
 ssh_repos=(
-    "git@github.com:dipsims/course-discovery.git"
-    "git@github.com:dipsims/credentials.git"
-    "git@github.com:dipsims/cs_comments_service.git"
-    "git@github.com:dipsims/ecommerce.git"
-    "git@github.com:dipsims/edx-e2e-tests.git"
-    "git@github.com:dipsims/edx-notes-api.git"
-    "git@github.com:dipsims/edx-platform.git"
-    "git@github.com:dipsims/xqueue.git"
-    "git@github.com:dipsims/edx-analytics-pipeline.git"
-    "git@github.com:dipsims/frontend-app-gradebook.git"
-    "git@github.com:dipsims/frontend-app-publisher.git"
+    "git@github.com:edx/course-discovery.git"
+    "git@github.com:edx/credentials.git"
+    "git@github.com:edx/cs_comments_service.git"
+    "git@github.com:edx/ecommerce.git"
+    "git@github.com:edx/edx-e2e-tests.git"
+    "git@github.com:edx/edx-notes-api.git"
+    "git@github.com:edx/edx-platform.git"
+    "git@github.com:edx/xqueue.git"
+    "git@github.com:edx/edx-analytics-pipeline.git"
+    "git@github.com:edx/frontend-app-gradebook.git"
+    "git@github.com:edx/frontend-app-publisher.git"
 )
 
 non_release_ssh_repos=(
-    "git@github.com:dipsims/registrar.git"
-    "git@github.com:dipsims/frontend-app-program-console.git"
+    "git@github.com:edx/registrar.git"
+    "git@github.com:edx/frontend-app-program-console.git"
 )
 
 private_repos=(
